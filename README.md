@@ -11,8 +11,8 @@ This repo reproduces why sparse 3-expert MoE underperforms dense models on a sin
 ```bash
 git clone https://github.com/you/sparse-moe-benchmark
 cd sparse-moe-benchmark
-pip install -r requirements.txt  # or install PyTorch separately
-make quick                       # Windows: .\make.bat quick
+pip install -r requirements.txt   # or install PyTorch separately
+make quick        # Windows: .\make.bat quick
 ```
 
 **Core results (i7-14700KF · RTX 4070 Ti · seq 256)**
