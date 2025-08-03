@@ -1,0 +1,10 @@
+{
+  "model": "dense300m",
+  "tokens_per_sec": 5827.445640847516,
+  "first_token_latency_ms": 2.0029544830322266,
+  "ms_per_token": 0.1716017723083496,
+  "vram_peak_gb": 0.280558592,
+  "active_params_m": 67.166858,
+  "total_tokens": 160,
+  "total_time_s": 0.027456283569335938
+}

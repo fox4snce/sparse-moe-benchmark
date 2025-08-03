@@ -1,0 +1,5 @@
+# Quick MoE benchmark config (≤10 min runtime)
+model_type: alchemist
+num_prompts: 10
+max_new_tokens: 16
+warmup_steps: 5 

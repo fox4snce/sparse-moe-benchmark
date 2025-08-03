@@ -1,0 +1,10 @@
+{
+  "model": "alchemist",
+  "tokens_per_sec": 1797.7578946240476,
+  "first_token_latency_ms": 10.00070571899414,
+  "ms_per_token": 0.5562484264373779,
+  "vram_peak_gb": 0.09504768,
+  "active_params_m": 16.434573,
+  "total_tokens": 160,
+  "total_time_s": 0.08899974822998047
+}
