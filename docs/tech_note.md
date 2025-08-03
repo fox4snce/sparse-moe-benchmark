@@ -58,21 +58,34 @@ class AlchemistMoE(nn.Module):
 
 ## Decision
 
-**❌ REJECT MoE Architecture**
+**⚠️ CONDITIONAL RECOMMENDATION**
 
-The sparse routing overhead exceeds the parameter savings. Key findings:
+MoE presents a clear memory vs performance trade-off:
 
-1. **Cost Inefficiency**: 28% more expensive than dense baseline
-2. **Performance Penalty**: 22-69% slower than dense models
-3. **Complexity Cost**: Router adds complexity without benefits
-4. **Memory Advantage Insufficient**: Lower VRAM doesn't justify performance loss
+### ❌ **For Most Use Cases: REJECT MoE**
+- **Cost Inefficiency**: 28% more expensive than dense baseline
+- **Performance Penalty**: 22-69% slower than dense models
+- **Complexity Cost**: Router adds overhead without benefits
+
+### ✅ **For VRAM-Constrained Edge Devices: CONSIDER MoE**
+- **Memory Efficiency**: 3-5× less VRAM usage (0.10 GB vs 0.28-0.53 GB)
+- **Edge Deployment**: May be the only viable option for <4 GB devices
+- **Jetson Nano/Laptop**: Could enable deployment where dense models won't fit
 
 ## Recommendations
 
+### **For Standard Deployments**
 1. **Pivot to Dense**: Use dense models for single-GPU deployment
 2. **Scale Vertically**: Larger dense models perform better than MoE
 3. **Optimize Memory**: Focus on memory optimization rather than sparsity
-4. **Reconsider at Scale**: MoE may be viable at multi-GPU scale
+
+### **For Edge/Constrained Deployments**
+4. **Consider MoE**: When VRAM is <4 GB and performance is secondary
+5. **Profile Alternatives**: 4-expert MoE or int4 quantized dense models
+6. **Test Edge Cases**: Jetson Nano, mobile GPUs, memory-constrained laptops
+
+### **For Multi-GPU Scale**
+7. **Reconsider at Scale**: MoE may be viable at multi-GPU scale
 
 ## Reproducibility
 
@@ -83,4 +96,8 @@ The sparse routing overhead exceeds the parameter savings. Key findings:
 
 ## Conclusion
 
-MoE architectures, while theoretically appealing, fail to deliver cost-effective performance on single-GPU systems. The routing overhead dominates the parameter savings, making dense models the superior choice for practical deployment. 
+MoE architectures present a clear memory vs performance trade-off. While they offer significant VRAM savings (3-5× less memory), the routing overhead results in slower inference and higher costs per token.
+
+**For most deployments**: Dense models remain the superior choice due to better performance and cost efficiency.
+
+**For edge devices**: MoE may be the only viable option when VRAM is severely constrained (<4 GB), making the performance penalty acceptable for deployment feasibility. 

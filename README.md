@@ -27,9 +27,13 @@ make quick                       # Windows: .\make.bat quick
 
 ## Verdict
 
-**MoE costs 28% more per token than dense-120M and is 69% slower than dense-300M on a single GPU.**
+**Memory vs Performance Trade-off:**
 
-Kill the router; go dense.
+✅ **Memory edge** – MoE fits in 0.10 GB; useful for <4 GB edge devices  
+❌ **Throughput & cost penalty** – 22–69% slower and ≥28% pricier per token
+
+**For most single-GPU setups**: Kill the router; go dense.  
+**For VRAM-constrained edge devices**: MoE may be the only viable option.
 
 ## What's inside
 
