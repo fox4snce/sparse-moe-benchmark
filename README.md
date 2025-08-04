@@ -1,5 +1,5 @@
 # Sparse Mixture-of-Experts Reality Check
-[![Bench](https://img.shields.io/badge/bench-pass-brightgreen)](benchmarks/results.csv)
+[![Bench](https://img.shields.io/badge/bench-pass-brightgreen)](https://github.com/fox4snce/sparse-moe-benchmark/blob/main/benchmarks/results.csv)
 
 **I turn a "Could we just...?" AI idea into go / pivot / drop data in 72 hours.**  
 This repo reproduces why sparse 3-expert MoE underperforms dense models on a single GPU.
@@ -9,7 +9,7 @@ This repo reproduces why sparse 3-expert MoE underperforms dense models on a sin
 ## Quick start (≤ 10 min)
 
 ```bash
-git clone https://github.com/you/sparse-moe-benchmark
+git clone https://github.com/fox4snce/sparse-moe-benchmark
 cd sparse-moe-benchmark
 pip install -r requirements.txt   # or install PyTorch separately
 make quick        # Windows: .\make.bat quick
