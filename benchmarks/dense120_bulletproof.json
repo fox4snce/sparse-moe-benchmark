@@ -1,0 +1,21 @@
+{
+  "tokens_per_sec": 40483.70845347535,
+  "first_token_latency_ms": 6.3235313606262205,
+  "ms_per_token": 0.024701294377446174,
+  "vram_peak_gb": 0.548309326171875,
+  "active_params_m": 124.439808,
+  "total_tokens": 51200,
+  "total_time_s": 1.2647062721252431,
+  "latency_std_ms": 1.6390281807958174,
+  "aws_cost_per_1m_tokens": 0.9716090028834083,
+  "model": "dense120",
+  "meta": {
+    "timestamp": "2025-08-03 20:37:19",
+    "gpu": "NVIDIA GeForce RTX 4070 Ti SUPER",
+    "cuda_version": "12.1",
+    "pytorch_version": "2.5.1+cu121",
+    "driver_version": "560.94",
+    "memory_used_gb": 2.041015625,
+    "git_commit": "cfaf60bf"
+  }
+}

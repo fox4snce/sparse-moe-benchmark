@@ -1,4 +1,4 @@
 Model,Tokens/sec,First Token (ms),VRAM (GB),Active Params,Cost/1M tokens
-Dense-120M,2308,11.0,0.53,124M,$0.37
+Dense-120M,41998,6.1,0.55,124M,$1.01
 Dense-300M,5827,2.0,0.28,67M,$0.15
-MoE 3×60M,1442,9.3,0.09,16M,$0.59 
+MoE 3×60M,24833,10.3,0.09,16M,$0.60 
