@@ -30,7 +30,7 @@
 - **Service positioning**: "3-day reality-check on your idea"
 - **Clear pricing**: "Fixed price US $2,500"
 - **Contact method**: "async Q&A · reply in 24h"
-- **Professional email**: caldwelljeffreyd@gmail.com
+- **Professional email**: j.caldwell@simplychaos.org
 
 ## Final Structure
 
