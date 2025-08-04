@@ -15,6 +15,30 @@ pip install -r requirements.txt   # or install PyTorch separately
 make quick        # Windows: .\make.bat quick
 ```
 
+## Tokenization: Simple, Reproducible, and Swappable
+
+This repo uses a simple, rule-based tokenizer (`SimpleTokenizer` in `simple_tokenizer.py`) for all benchmarks. It splits on whitespace and punctuation, lowercases text, and requires no external files or dependencies. This ensures zero setup and perfect reproducibility for anyone cloning the repo.
+
+**Why this approach?**
+- Zero setup: No need to download or train a tokenizer model.
+- 100% reproducibility: No "missing spm.model" errors.
+- Good enough for benchmarking speed, VRAM, and cost.
+
+**Limitations:**
+- Token count is ~1.5-2× higher than a trained BPE/WordPiece tokenizer.
+- Not suitable for production LLMs or fine-tuning on real data.
+
+**How to swap in a trained tokenizer:**
+If you want to use a real SentencePiece or HuggingFace tokenizer, just replace the import and initialization in `run.py`:
+
+```python
+from alchemist.foundation.tokenizer import SharedTokenizer
+# tokenizer = SimpleTokenizer()
+tokenizer = SharedTokenizer(model_path="tokenizer.model")
+```
+
+and provide a `tokenizer.model` file.
+
 **Core results (i7-14700KF · RTX 4070 Ti · seq 256)**
 
 | Model | Tokens/sec | First Token (ms) | VRAM (GB) | Active Params | Cost/1M tokens* |
