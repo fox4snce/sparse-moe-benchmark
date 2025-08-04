@@ -52,7 +52,7 @@ and provide a `tokenizer.model` file.
 
 | Model | Tokens/sec | First Token (ms) | VRAM (GB) | Active Params | Cost/1M tokens* |
 |-------|------------|------------------|-----------|---------------|----------------|
-| Dense-120M | 161.6 | 61.9 | 0.55 | 124M | $1.01 |
+| Dense-120M | 170.6 | 58.6 | 0.55 | 124M | $1.01 |
 | **MoE 3×60M** | **100.3** | **99.7** | **0.09** | **16M** | **$0.60** |
 
 <sub>*Token cost assumes identical hardware & electricity; see docs/tech_note.md.*</sub>
