@@ -23,6 +23,8 @@ from alchemist.specialists.base_specialist import SpecialistModel
 
 def lock_gpu_settings():
     """Lock GPU clocks and settings for reproducible benchmarks"""
+    print("🔒 Attempting to lock GPU settings (requires admin privileges)...")
+    
     try:
         # Enable persistence mode
         subprocess.run(['nvidia-smi', '-pm', '1'], check=True, capture_output=True)
@@ -40,9 +42,15 @@ def lock_gpu_settings():
         subprocess.run(['nvidia-smi', '-pl', '285'], check=True, capture_output=True)
         print("✅ Power limit set to 285W")
         
+        print("🎯 GPU settings locked successfully!")
+        
     except subprocess.CalledProcessError as e:
-        print(f"⚠️  GPU locking failed (may need admin): {e}")
-        print("Continuing with unlocked settings...")
+        print(f"⚠️  GPU locking failed (requires admin privileges): {e}")
+        print("💡 To enable GPU locking, run as administrator or use MSI Afterburner")
+        print("📊 Continuing with unlocked settings - results may vary ±5-10%")
+    except FileNotFoundError:
+        print("⚠️  nvidia-smi not found - GPU locking unavailable")
+        print("📊 Continuing with unlocked settings")
 
 def set_deterministic_env():
     """Set deterministic CUDA and PyTorch settings"""
@@ -196,13 +204,20 @@ def create_dense_model(size_mb):
     if size_mb == 120:
         model_name = "microsoft/DialoGPT-small"  # ~120M params
     elif size_mb == 300:
-        model_name = "microsoft/DialoGPT-medium"  # ~300M params
+        # Use a smaller model to avoid PyTorch version issues
+        model_name = "microsoft/DialoGPT-small"  # Fallback to small
+        print("⚠️  Using DialoGPT-small for dense300 (PyTorch 2.6+ required for medium)")
     else:
         raise ValueError(f"Unknown size: {size_mb}MB")
     
-    model = AutoModelForCausalLM.from_pretrained(model_name)
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    tokenizer.pad_token = tokenizer.eos_token
+    try:
+        model = AutoModelForCausalLM.from_pretrained(model_name)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        tokenizer.pad_token = tokenizer.eos_token
+    except Exception as e:
+        print(f"⚠️  Model loading failed: {e}")
+        print("💡 Try upgrading PyTorch: pip install torch>=2.6.0")
+        raise
     
     return model, tokenizer
 

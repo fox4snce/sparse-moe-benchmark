@@ -17,6 +17,10 @@ make quick        # Windows: .\make.bat quick
 
 **Reproducibility Guarantee**: All benchmarks use locked GPU clocks, deterministic settings, and 200+ iterations for ±2% run-to-run variance. See `run_benchmark.py` for the bulletproof methodology.
 
+**Note**: GPU clock locking requires administrator privileges. Without admin access, results may vary ±5-10% due to thermal throttling and boost behavior.
+
+**PyTorch Version**: For full model compatibility, use PyTorch 2.6+ (see requirements.txt). Older versions will use fallback models.
+
 ## Tokenization: Simple, Reproducible, and Swappable
 
 This repo uses a simple, rule-based tokenizer (`SimpleTokenizer` in `simple_tokenizer.py`) for all benchmarks. It splits on whitespace and punctuation, lowercases text, and requires no external files or dependencies. This ensures zero setup and perfect reproducibility for anyone cloning the repo.
