@@ -47,10 +47,12 @@ and provide a `tokenizer.model` file.
 
 **Core results (i7-14700KF · RTX 4070 Ti · seq 256 · bulletproof methodology)**
 
+### 🔄 Generation Speed (Autoregressive Decoding)
+*Real-world usage: one token at a time*
+
 | Model | Tokens/sec | First Token (ms) | VRAM (GB) | Active Params | Cost/1M tokens* |
 |-------|------------|------------------|-----------|---------------|----------------|
 | Dense-120M | 161.6 | 61.9 | 0.55 | 124M | $1.01 |
-| Dense-300M | 5,827 | 2.0 | 0.28 | 67M | $0.15 |
 | **MoE 3×60M** | **100.3** | **99.7** | **0.09** | **16M** | **$0.60** |
 
 <sub>*Token cost assumes identical hardware & electricity; see docs/tech_note.md.*</sub>

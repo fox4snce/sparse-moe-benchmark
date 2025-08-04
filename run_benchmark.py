@@ -249,6 +249,7 @@ def warmup_model(model, tokenizer, device, num_warmup=50):
 def measure_model(model, tokenizer, device, seq_len=256, num_iterations=200):
     """Measure model performance with high precision"""
     print(f"📊 Measuring model ({num_iterations} iterations, seq_len={seq_len})...")
+    print("🔄 Measuring generation speed (autoregressive decoding)...")
     
     # Create test prompts
     prompts = [
@@ -258,10 +259,6 @@ def measure_model(model, tokenizer, device, seq_len=256, num_iterations=200):
         "All happy families are alike; each unhappy family is unhappy in its own way.",
         "It was the best of times, it was the worst of times."
     ]
-    
-    # For generation benchmarks, we'll measure how fast the model can generate new tokens
-    # This is more realistic for real-world usage
-    print("🔄 Measuring generation speed (not inference throughput)...")
     
     model.eval()
     total_tokens = 0
@@ -295,7 +292,7 @@ def measure_model(model, tokenizer, device, seq_len=256, num_iterations=200):
                                   tokenizer.pad_token_id, dtype=input_ids.dtype, device=input_ids.device)
                 input_ids = torch.cat([input_ids, padding], dim=1)
             
-            # Measure generation time (more realistic)
+            # Measure performance based on benchmark type
             start_event = torch.cuda.Event(enable_timing=True) if torch.cuda.is_available() else None
             end_event = torch.cuda.Event(enable_timing=True) if torch.cuda.is_available() else None
             
@@ -304,7 +301,7 @@ def measure_model(model, tokenizer, device, seq_len=256, num_iterations=200):
             
             start_time = time.time()
             
-            # Generate a few tokens to measure generation speed
+            # Generate tokens autoregressively (real-world usage)
             generated_tokens = 0
             current_ids = input_ids.clone()
             
@@ -316,6 +313,8 @@ def measure_model(model, tokenizer, device, seq_len=256, num_iterations=200):
                     current_ids = torch.cat([current_ids, next_token], dim=-1)
                     generated_tokens += 1
             
+            tokens_processed = generated_tokens
+            
             end_time = time.time()
             
             if end_event:
@@ -326,7 +325,7 @@ def measure_model(model, tokenizer, device, seq_len=256, num_iterations=200):
                 latency_ms = (end_time - start_time) * 1000
             
             latencies.append(latency_ms)
-            total_tokens += generated_tokens  # Count generated tokens, not input tokens
+            total_tokens += tokens_processed
             total_time += latency_ms / 1000  # Convert to seconds
     
     # Calculate statistics
@@ -380,6 +379,7 @@ def main():
     parser.add_argument("--warmup", type=int, default=50, help="Warmup iterations")
     parser.add_argument("--output", type=str, help="Output JSON file")
     parser.add_argument("--lock-gpu", action="store_true", help="Lock GPU clocks")
+
     
     args = parser.parse_args()
     
