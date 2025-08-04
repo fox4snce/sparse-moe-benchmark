@@ -2,6 +2,7 @@
 REM Windows batch file equivalent to Makefile
 
 if "%1"=="quick" (
+    set PYTHONPATH=%PYTHONPATH%;%CD%
     python 10_core\run.py --config 10_core\configs\moe_3expert_quick.yaml
 ) else if "%1"=="full" (
     python 10_core\run.py --config 20_extended\configs\moe_full.yaml
