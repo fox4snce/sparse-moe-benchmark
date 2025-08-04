@@ -259,6 +259,10 @@ def measure_model(model, tokenizer, device, seq_len=256, num_iterations=200):
         "It was the best of times, it was the worst of times."
     ]
     
+    # For generation benchmarks, we'll measure how fast the model can generate new tokens
+    # This is more realistic for real-world usage
+    print("🔄 Measuring generation speed (not inference throughput)...")
+    
     model.eval()
     total_tokens = 0
     total_time = 0.0
@@ -291,7 +295,7 @@ def measure_model(model, tokenizer, device, seq_len=256, num_iterations=200):
                                   tokenizer.pad_token_id, dtype=input_ids.dtype, device=input_ids.device)
                 input_ids = torch.cat([input_ids, padding], dim=1)
             
-            # Measure inference time
+            # Measure generation time (more realistic)
             start_event = torch.cuda.Event(enable_timing=True) if torch.cuda.is_available() else None
             end_event = torch.cuda.Event(enable_timing=True) if torch.cuda.is_available() else None
             
@@ -299,7 +303,19 @@ def measure_model(model, tokenizer, device, seq_len=256, num_iterations=200):
                 start_event.record()
             
             start_time = time.time()
-            outputs = model(input_ids)
+            
+            # Generate a few tokens to measure generation speed
+            generated_tokens = 0
+            current_ids = input_ids.clone()
+            
+            for _ in range(10):  # Generate 10 tokens
+                with torch.no_grad():
+                    outputs = model(current_ids)
+                    logits = outputs.logits if hasattr(outputs, 'logits') else outputs["logits"]
+                    next_token = torch.argmax(logits[:, -1, :], dim=-1, keepdim=True)
+                    current_ids = torch.cat([current_ids, next_token], dim=-1)
+                    generated_tokens += 1
+            
             end_time = time.time()
             
             if end_event:
@@ -310,7 +326,7 @@ def measure_model(model, tokenizer, device, seq_len=256, num_iterations=200):
                 latency_ms = (end_time - start_time) * 1000
             
             latencies.append(latency_ms)
-            total_tokens += input_ids.shape[1]
+            total_tokens += generated_tokens  # Count generated tokens, not input tokens
             total_time += latency_ms / 1000  # Convert to seconds
     
     # Calculate statistics
@@ -350,6 +366,7 @@ def measure_model(model, tokenizer, device, seq_len=256, num_iterations=200):
     print(f"   Latency: {avg_latency:.1f} ± {std_latency:.1f} ms")
     print(f"   VRAM: {vram_peak_gb:.2f} GB")
     print(f"   Active params: {active_params_m:.1f}M")
+    print(f"   Debug: {total_tokens} tokens in {total_time:.3f}s = {total_tokens/total_time:.1f} tokens/sec")
     
     return results
 

@@ -1,0 +1,21 @@
+{
+  "tokens_per_sec": 100.31714900970834,
+  "first_token_latency_ms": 99.6838536453247,
+  "ms_per_token": 0.3893900533020496,
+  "vram_peak_gb": 0.08644580841064453,
+  "active_params_m": 16.069382,
+  "total_tokens": 2000,
+  "total_time_s": 19.936770729064946,
+  "latency_std_ms": 8.277545340040922,
+  "aws_cost_per_1m_tokens": 0.002407611576233,
+  "model": "moe",
+  "meta": {
+    "timestamp": "2025-08-03 20:47:53",
+    "gpu": "NVIDIA GeForce RTX 4070 Ti SUPER",
+    "cuda_version": "12.1",
+    "pytorch_version": "2.5.1+cu121",
+    "driver_version": "560.94",
+    "memory_used_gb": 1.4501953125,
+    "git_commit": "422a720c"
+  }
+}
