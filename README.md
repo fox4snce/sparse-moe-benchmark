@@ -80,8 +80,3 @@ sparse-moe-benchmark/
 
 See `docs/dev_guide.md` for the full test matrix and implementation checklist.
 
----
-
-**Need a 3-day reality-check on your idea?**  
-Fixed price US $2,500 · async Q&A · reply in 24h.  
-✉ j.caldwell@simplychaos.org 
